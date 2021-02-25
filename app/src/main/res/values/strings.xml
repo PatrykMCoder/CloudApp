@@ -6,4 +6,7 @@
     <string name="password">password</string>
     <string name="login">Login</string>
     <string name="register">Register</string>
+    <string name="image">Image</string>
+    <string name="video">Video</string>
+    <string name="pdf">PDF</string>
 </resources>

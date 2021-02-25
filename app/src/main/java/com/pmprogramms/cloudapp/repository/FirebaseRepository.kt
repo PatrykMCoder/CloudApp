@@ -6,6 +6,7 @@ import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
+import com.pmprogramms.cloudapp.helpers.FileType
 import com.pmprogramms.cloudapp.model.User
 import java.io.File
 import java.io.FileInputStream
@@ -75,9 +76,22 @@ class FirebaseRepository {
         return mutableLiveData
     }
 
-    fun uploadFile(filePath: Uri) {
+    fun uploadFile(fileType: FileType, filePath: Uri) {
         val file = File(filePath.path)
-        val storageRef = Firebase.storage.reference.child("files/${firebaseAuth.currentUser?.uid}/image/${file.name}")
+
+        val catalog = when(fileType) {
+            FileType.IMAGE -> {
+                "image"
+            }
+            FileType.VIDEO -> {
+                "video"
+            }
+            FileType.PDF -> {
+                "pdf"
+            }
+        }
+
+        val storageRef = Firebase.storage.reference.child("files/${firebaseAuth.currentUser?.uid}/$catalog/${file.name}")
         val uploadTask = storageRef.putFile(filePath)
 
         uploadTask.addOnSuccessListener { task ->

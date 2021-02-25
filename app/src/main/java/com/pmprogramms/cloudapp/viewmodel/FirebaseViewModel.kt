@@ -5,6 +5,7 @@ import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.pmprogramms.cloudapp.helpers.FileType
 import com.pmprogramms.cloudapp.model.User
 import com.pmprogramms.cloudapp.repository.FirebaseRepository
 import kotlinx.coroutines.Dispatchers
@@ -24,8 +25,8 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         return repository.createUserWithEmail(email, password)
     }
 
-    fun uploadFile(filePath: Uri) {
-        repository.uploadFile(filePath)
+    fun uploadFile(fileType: FileType, filePath: Uri) {
+        repository.uploadFile(fileType, filePath)
     }
 
     fun logoutUser() {

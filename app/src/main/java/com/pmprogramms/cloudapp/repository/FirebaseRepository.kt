@@ -1,10 +1,15 @@
 package com.pmprogramms.cloudapp.repository
 
+import android.net.Uri
+import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.storage
 import com.pmprogramms.cloudapp.model.User
+import java.io.File
+import java.io.FileInputStream
+import java.security.cert.CertPath
 
 class FirebaseRepository {
     private val firebaseAuth = FirebaseAuth.getInstance()
@@ -68,5 +73,22 @@ class FirebaseRepository {
         }
 
         return mutableLiveData
+    }
+
+    fun uploadFile(filePath: Uri) {
+        val file = File(filePath.path)
+        val storageRef = Firebase.storage.reference.child("files/${firebaseAuth.currentUser?.uid}/image/${file.name}")
+        val uploadTask = storageRef.putFile(filePath)
+
+        uploadTask.addOnSuccessListener { task ->
+            run {
+                if (task.task.isComplete)
+                    Log.d("uploadFile", "uploadFile: FINISHED UPLOAD")
+            }
+        }
+    }
+
+    fun logoutUser() {
+        firebaseAuth.signOut()
     }
 }

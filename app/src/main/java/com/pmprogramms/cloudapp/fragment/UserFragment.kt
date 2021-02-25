@@ -21,6 +21,14 @@ class UserFragment : Fragment() {
         val binding = FragmentUserBinding.inflate(layoutInflater)
         val firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
 
+        binding.testButton.setOnClickListener {
+            findNavController().navigate(R.id.action_userFragment_to_filesFragment)
+        }
+
+        binding.logoutButton.setOnClickListener {
+            firebaseViewModel.logoutUser()
+        }
+
         lifecycleScope.launchWhenStarted {
             val user = firebaseViewModel.user
 
@@ -33,8 +41,6 @@ class UserFragment : Fragment() {
                 findNavController().navigate(R.id.action_userFragment_to_loginFragment)
             }
         }
-
-
 
         return binding.root
     }

@@ -6,8 +6,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.cardview.widget.CardView
+import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.pmprogramms.cloudapp.R
+import com.pmprogramms.cloudapp.fragment.FilesFragmentDirections
+import com.pmprogramms.cloudapp.fragment.UserFragmentDirections
 import com.pmprogramms.cloudapp.helpers.FileType
 import com.pmprogramms.cloudapp.model.File
 
@@ -36,8 +39,9 @@ class FileRecyclerViewAdapter : RecyclerView.Adapter<FileViewHolder>() {
         }
 
         holder.cardContainer.setOnClickListener {
-//            it will be open preview with title, url download and data upload if is available.
-//            buttons - download, delete
+            val action =
+                FilesFragmentDirections.actionFilesFragmentToFileDetailsFragment(currentItem)
+            holder.itemView.findNavController().navigate(action)
         }
     }
 

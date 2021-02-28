@@ -20,16 +20,17 @@ class RegisterFragment : Fragment() {
         val binding = FragmentRegisterBinding.inflate(layoutInflater)
         val firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
         binding.registerButton.setOnClickListener {
+            val progressBar = ProgressDialog.show(context, "Create account...", "Please wait")
             val email = binding.emailEditText.text.trim().toString()
             val password = binding.passwordEdit.text.toString()
             val user = firebaseViewModel.createUserWithEmail(email, password)
 
             user.observe(viewLifecycleOwner, {
-                val progressBar = ProgressDialog.show(context, "Create account...", "Please wait")
-                if (it != null){
+                if (it != null) {
                     progressBar.cancel()
                     findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
                 }
+                progressBar.cancel()
             })
         }
 

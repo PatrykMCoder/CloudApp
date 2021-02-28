@@ -30,6 +30,10 @@ class FirebaseViewModel(application: Application) : AndroidViewModel(application
         return repository.getAllFilesList()
     }
 
+    fun downloadFile(path: String, fileType: FileType) {
+        repository.downloadFile(path, fileType)
+    }
+
     fun logoutUser() {
         repository.logoutUser()
     }

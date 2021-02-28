@@ -8,6 +8,6 @@ import java.io.Serializable
 
 class File(
     @NotNull val title: String,
-    @NotNull val urlDownload: Task<Uri>,
+    @NotNull val firebasePath: String,
     @NotNull val type: FileType
 ) : Serializable

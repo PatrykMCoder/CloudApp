@@ -23,17 +23,17 @@ class LoginFragment : Fragment() {
             FirebaseViewModel::class.java
         )
         binding.loginButton.setOnClickListener {
+            val progressBar = ProgressDialog.show(context, "Login...", "Please wait")
             val email = binding.emailEditText.text.trim().toString()
             val password = binding.passwordEdit.text.toString()
             val user = firebaseViewModel.signInWithEmail(email, password)
 
-//          TODO make better solution for this
             user.observe(viewLifecycleOwner, {
-                val progressBar = ProgressDialog.show(context, "Login...", "Please wait")
                 if (it != null) {
                     progressBar.cancel()
                     findNavController().navigate(R.id.action_loginFragment_to_userFragment)
                 }
+                progressBar.cancel()
             })
 
         }

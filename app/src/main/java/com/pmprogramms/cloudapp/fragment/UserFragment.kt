@@ -36,6 +36,7 @@ class UserFragment : Fragment() {
                 binding.test.text = u.email
             })
         } else {
+            progressBar.cancel()
             Toast.makeText(context, "Please, login to your account", Toast.LENGTH_SHORT).show()
             findNavController().navigate(R.id.action_userFragment_to_loginFragment)
         }

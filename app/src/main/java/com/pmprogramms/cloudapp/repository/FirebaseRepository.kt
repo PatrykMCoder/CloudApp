@@ -1,6 +1,7 @@
 package com.pmprogramms.cloudapp.repository
 
 import android.net.Uri
+import android.os.Environment
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
@@ -8,6 +9,7 @@ import com.google.firebase.ktx.Firebase
 import com.google.firebase.storage.ktx.component1
 import com.google.firebase.storage.ktx.component2
 import com.google.firebase.storage.ktx.storage
+import com.pmprogramms.cloudapp.R
 import com.pmprogramms.cloudapp.helpers.FileType
 import com.pmprogramms.cloudapp.model.User
 import java.io.File
@@ -120,7 +122,7 @@ class FirebaseRepository {
             }
 
             items.forEach { item ->
-                val file = fileModel(item.name, item.downloadUrl, FileType.IMAGE)
+                val file = fileModel(item.name, item.path, FileType.IMAGE)
                 listOfFiles.add(file)
                 mutableLiveData.value = listOfFiles
             }
@@ -131,7 +133,7 @@ class FirebaseRepository {
             }
 
             items.forEach { item ->
-                val file = fileModel(item.name, item.downloadUrl, FileType.VIDEO)
+                val file = fileModel(item.name, item.path, FileType.VIDEO)
                 listOfFiles.add(file)
                 mutableLiveData.value = listOfFiles
             }
@@ -142,13 +144,38 @@ class FirebaseRepository {
             }
 
             items.forEach { item ->
-                val file = fileModel(item.name, item.downloadUrl, FileType.PDF)
+                val file = fileModel(item.name, item.path, FileType.PDF)
                 listOfFiles.add(file)
                 mutableLiveData.value = listOfFiles
             }
         }
 
         return mutableLiveData
+    }
+
+    fun downloadFile(path: String, fileType: FileType) {
+        val storageRef = Firebase.storage.reference.child(path)
+        //todo make with type files
+        val localFile = when (fileType) {
+            FileType.IMAGE -> {
+                File.createTempFile("image", ".jpg")
+            }
+            FileType.VIDEO -> {
+                File.createTempFile("video", ".mp4")
+            }
+            FileType.PDF -> {
+                File.createTempFile("pdf", ".pdf")
+            }
+        }
+
+        storageRef.getFile(localFile)
+            .addOnSuccessListener {
+                Log.d("downloadFile", "downloadFile: downloaded file, ${localFile.path}")
+                // todo move file from app cache to download directory
+            }
+            .addOnFailureListener {
+                Log.d("downloadFile", "downloadFile: download file fail: ${it.message}")
+            }
     }
 
     fun logoutUser() {

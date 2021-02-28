@@ -3,27 +3,40 @@ package com.pmprogramms.cloudapp.fragment
 import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.view.*
 import android.widget.Toast
 import androidx.appcompat.widget.PopupMenu
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.pmprogramms.cloudapp.R
 import com.pmprogramms.cloudapp.databinding.FragmentFilesBinding
 import com.pmprogramms.cloudapp.helpers.Codes
 import com.pmprogramms.cloudapp.helpers.FileType
+import com.pmprogramms.cloudapp.util.FileRecyclerViewAdapter
 import com.pmprogramms.cloudapp.viewmodel.FirebaseViewModel
 
 
 class FilesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
     private lateinit var firebaseViewModel: FirebaseViewModel
+    private lateinit var recyclerViewAdapter: FileRecyclerViewAdapter
+    private lateinit var binding: FragmentFilesBinding
+
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
-        val binding = FragmentFilesBinding.inflate(layoutInflater)
+        binding = FragmentFilesBinding.inflate(layoutInflater)
         firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
+        recyclerViewAdapter = FileRecyclerViewAdapter()
 
+        getAllFiles()
+
+        binding.recyclerview.adapter = recyclerViewAdapter
+        binding.recyclerview.layoutManager = GridLayoutManager(requireContext(), 2)
         binding.uploadFileButton.setOnClickListener {
             val popup = PopupMenu(
                 requireContext(),
@@ -34,7 +47,19 @@ class FilesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
             popup.show()
         }
 
+        binding.swipe.setOnRefreshListener {
+            getAllFiles()
+        }
+
         return binding.root
+    }
+
+    private fun getAllFiles() {
+        firebaseViewModel.getAllFilesList().observe(viewLifecycleOwner, {
+            recyclerViewAdapter.setData(it)
+        })
+
+        binding.swipe.isRefreshing = false
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -48,7 +73,7 @@ class FilesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     }
                     return
                 }
-                Codes.VIDEO_CODE_RESULT-> {
+                Codes.VIDEO_CODE_RESULT -> {
                     val dataIntent = data?.data
                     if (dataIntent != null) {
                         val filePath = data.data
@@ -57,7 +82,7 @@ class FilesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     return
                 }
 
-                Codes.PDF_CODE_RESULT-> {
+                Codes.PDF_CODE_RESULT -> {
                     val dataIntent = data?.data
                     if (dataIntent != null) {
                         val filePath = data.data
@@ -66,7 +91,6 @@ class FilesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     return
                 }
             }
-
         }
     }
 

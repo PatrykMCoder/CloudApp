@@ -1,5 +1,6 @@
 package com.pmprogramms.cloudapp.fragment
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -28,18 +29,16 @@ class UserFragment : Fragment() {
         binding.logoutButton.setOnClickListener {
             firebaseViewModel.logoutUser()
         }
-
-        lifecycleScope.launchWhenStarted {
-            val user = firebaseViewModel.user
-
-            if (user != null) {
-                user.observe(viewLifecycleOwner, { u ->
-                    binding.test.text = u.email
-                })
-            } else {
-                Toast.makeText(context, "Please, login to your account", Toast.LENGTH_SHORT).show()
-                findNavController().navigate(R.id.action_userFragment_to_loginFragment)
-            }
+        val user = firebaseViewModel.user
+        val progressBar = ProgressDialog.show(context, "Checking account...", "Please wait")
+        if (user != null) {
+            user.observe(viewLifecycleOwner, { u ->
+                progressBar.cancel()
+                binding.test.text = u.email
+            })
+        } else {
+            Toast.makeText(context, "Please, login to your account", Toast.LENGTH_SHORT).show()
+            findNavController().navigate(R.id.action_userFragment_to_loginFragment)
         }
 
         return binding.root

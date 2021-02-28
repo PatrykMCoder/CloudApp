@@ -1,5 +1,6 @@
 package com.pmprogramms.cloudapp.fragment
 
+import android.app.ProgressDialog
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -24,13 +25,13 @@ class RegisterFragment : Fragment() {
             val password = binding.passwordEdit.text.toString()
             val user = firebaseViewModel.createUserWithEmail(email, password)
 
-//          TODO make better solution for this
             user.observe(viewLifecycleOwner, {
-                if (it != null)
+                val progressBar = ProgressDialog.show(context, "Create account...", "Please wait")
+                if (it != null){
+                    progressBar.cancel()
                     findNavController().navigate(R.id.action_registerFragment_to_loginFragment)
+                }
             })
-
-
         }
 
         return binding.root

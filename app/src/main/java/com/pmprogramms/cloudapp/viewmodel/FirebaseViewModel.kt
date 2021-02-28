@@ -4,14 +4,10 @@ import android.app.Application
 import android.net.Uri
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
 import com.pmprogramms.cloudapp.helpers.FileType
 import com.pmprogramms.cloudapp.model.File
 import com.pmprogramms.cloudapp.model.User
 import com.pmprogramms.cloudapp.repository.FirebaseRepository
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import java.io.FileInputStream
 
 class FirebaseViewModel(application: Application) : AndroidViewModel(application) {
     private val repository: FirebaseRepository = FirebaseRepository()

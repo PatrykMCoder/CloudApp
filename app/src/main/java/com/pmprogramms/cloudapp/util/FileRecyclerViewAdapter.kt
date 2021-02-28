@@ -1,18 +1,15 @@
 package com.pmprogramms.cloudapp.util
 
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.TextView
-import android.widget.Toast
 import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 import com.pmprogramms.cloudapp.R
 import com.pmprogramms.cloudapp.helpers.FileType
 import com.pmprogramms.cloudapp.model.File
-import kotlin.coroutines.coroutineContext
 
 class FileRecyclerViewAdapter : RecyclerView.Adapter<FileViewHolder>() {
     private var data = ArrayList<File>()

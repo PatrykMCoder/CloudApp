@@ -1,8 +1,7 @@
 package com.pmprogramms.cloudapp
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.lifecycle.ViewModelProvider
+import androidx.appcompat.app.AppCompatActivity
 import com.pmprogramms.cloudapp.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {

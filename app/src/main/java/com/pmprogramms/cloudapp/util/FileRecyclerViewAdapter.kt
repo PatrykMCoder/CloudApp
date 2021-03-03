@@ -10,7 +10,6 @@ import androidx.navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
 import com.pmprogramms.cloudapp.R
 import com.pmprogramms.cloudapp.fragment.FilesFragmentDirections
-import com.pmprogramms.cloudapp.fragment.UserFragmentDirections
 import com.pmprogramms.cloudapp.helpers.FileType
 import com.pmprogramms.cloudapp.model.File
 
@@ -56,7 +55,7 @@ class FileRecyclerViewAdapter : RecyclerView.Adapter<FileViewHolder>() {
 }
 
 class FileViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    val titleTextView: TextView = itemView.findViewById(R.id.title_file)
+    val titleTextView: TextView = itemView.findViewById(R.id.title_file_text_view)
     val imageType: ImageView = itemView.findViewById(R.id.type_file)
     val cardContainer: CardView = itemView.findViewById(R.id.card_container)
 }

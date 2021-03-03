@@ -26,7 +26,7 @@
                 android:contentDescription="@string/app_name" />
 
             <TextView
-                android:id="@+id/title_file"
+                android:id="@+id/title_file_text_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_below="@id/type_file"

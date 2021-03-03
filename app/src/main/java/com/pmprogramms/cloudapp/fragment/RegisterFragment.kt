@@ -22,7 +22,7 @@ class RegisterFragment : Fragment() {
         binding.registerButton.setOnClickListener {
             val progressBar = ProgressDialog.show(context, "Create account...", "Please wait")
             val email = binding.emailEditText.text.trim().toString()
-            val password = binding.passwordEdit.text.toString()
+            val password = binding.passwordEditText.text.toString()
             val user = firebaseViewModel.createUserWithEmail(email, password)
 
             user.observe(viewLifecycleOwner, {

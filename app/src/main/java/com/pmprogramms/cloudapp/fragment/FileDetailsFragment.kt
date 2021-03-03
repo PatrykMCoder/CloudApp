@@ -36,7 +36,7 @@ class FileDetailsFragment : Fragment() {
                 binding.typeFile.setImageResource(R.drawable.ic_baseline_picture_as_pdf_24)
             }
         }
-        binding.titleFile.text = file.title
+        binding.titleFileTextView.text = file.title
 
         binding.downloadFile.setOnClickListener {
             firebaseViewModel.downloadFile(file.firebasePath, file.type)

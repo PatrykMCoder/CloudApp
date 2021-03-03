@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">CloudApp</string>
-    <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="email">Email</string>
     <string name="password">password</string>
@@ -10,4 +9,8 @@
     <string name="video">Video</string>
     <string name="pdf">PDF</string>
     <string name="download">download</string>
+    <string name="username">username</string>
+    <string name="show_your_files">Show your files</string>
+    <string name="logout">Logout</string>
+    <string name="title_file">hellowordl.txt</string>
 </resources>

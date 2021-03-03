@@ -21,7 +21,7 @@ class UserFragment : Fragment() {
         val binding = FragmentUserBinding.inflate(layoutInflater)
         val firebaseViewModel = ViewModelProvider(this).get(FirebaseViewModel::class.java)
 
-        binding.testButton.setOnClickListener {
+        binding.filesButton.setOnClickListener {
             findNavController().navigate(R.id.action_userFragment_to_filesFragment)
         }
 
@@ -33,7 +33,7 @@ class UserFragment : Fragment() {
         if (user != null) {
             user.observe(viewLifecycleOwner, { u ->
                 progressBar.cancel()
-                binding.test.text = u.email
+                binding.userEmailText.text = u.email
             })
         } else {
             progressBar.cancel()

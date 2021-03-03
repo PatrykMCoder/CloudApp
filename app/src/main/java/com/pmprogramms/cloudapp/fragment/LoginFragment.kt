@@ -25,7 +25,7 @@ class LoginFragment : Fragment() {
         binding.loginButton.setOnClickListener {
             val progressBar = ProgressDialog.show(context, "Login...", "Please wait")
             val email = binding.emailEditText.text.trim().toString()
-            val password = binding.passwordEdit.text.toString()
+            val password = binding.passwordEditText.text.toString()
             val user = firebaseViewModel.signInWithEmail(email, password)
 
             user.observe(viewLifecycleOwner, {

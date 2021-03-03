@@ -23,13 +23,14 @@
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/upload_file_button"
-        android:layout_width="76dp"
-        android:layout_height="41dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:layout_marginBottom="20dp"
-        android:background="#FFFFFF"
+        android:tintMode="@color/white"
         android:src="@drawable/ic_baseline_cloud_upload_24"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="@string/app_name"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

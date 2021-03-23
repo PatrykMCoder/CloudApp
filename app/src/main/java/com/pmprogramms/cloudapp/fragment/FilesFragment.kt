@@ -1,6 +1,7 @@
 package com.pmprogramms.cloudapp.fragment
 
 import android.app.Activity
+import android.app.ProgressDialog
 import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -16,6 +17,7 @@ import com.pmprogramms.cloudapp.R
 import com.pmprogramms.cloudapp.databinding.FragmentFilesBinding
 import com.pmprogramms.cloudapp.helpers.Codes
 import com.pmprogramms.cloudapp.helpers.FileType
+import com.pmprogramms.cloudapp.helpers.UploadState
 import com.pmprogramms.cloudapp.util.FileRecyclerViewAdapter
 import com.pmprogramms.cloudapp.viewmodel.FirebaseViewModel
 
@@ -64,12 +66,25 @@ class FilesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         if (resultCode == Activity.RESULT_OK) {
+            val progressDialog = ProgressDialog.show(context, "Upload file", "Please wait...")
             when (requestCode) {
                 Codes.IMAGE_CODE_RESULT -> {
                     val dataIntent = data?.data
                     if (dataIntent != null) {
                         val filePath = data.data
                         firebaseViewModel.uploadFile(FileType.IMAGE, filePath!!)
+                            .observe(viewLifecycleOwner, {
+                                if (it == UploadState.SUCCESS) {
+                                    getAllFiles()
+                                    progressDialog.cancel()
+                                    Toast.makeText(context, "Upload finished", Toast.LENGTH_SHORT)
+                                        .show()
+                                } else if (it == UploadState.FAIL) {
+                                    progressDialog.cancel()
+                                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            })
                     }
                     return
                 }
@@ -78,6 +93,18 @@ class FilesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     if (dataIntent != null) {
                         val filePath = data.data
                         firebaseViewModel.uploadFile(FileType.VIDEO, filePath!!)
+                            .observe(viewLifecycleOwner, {
+                                if (it == UploadState.SUCCESS) {
+                                    getAllFiles()
+                                    progressDialog.cancel()
+                                    Toast.makeText(context, "Upload finished", Toast.LENGTH_SHORT)
+                                        .show()
+                                } else if (it == UploadState.FAIL) {
+                                    progressDialog.cancel()
+                                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            })
                     }
                     return
                 }
@@ -87,6 +114,18 @@ class FilesFragment : Fragment(), PopupMenu.OnMenuItemClickListener {
                     if (dataIntent != null) {
                         val filePath = data.data
                         firebaseViewModel.uploadFile(FileType.PDF, filePath!!)
+                            .observe(viewLifecycleOwner, {
+                                if (it == UploadState.SUCCESS) {
+                                    getAllFiles()
+                                    progressDialog.cancel()
+                                    Toast.makeText(context, "Upload finished", Toast.LENGTH_SHORT)
+                                        .show()
+                                } else if (it == UploadState.FAIL) {
+                                    progressDialog.cancel()
+                                    Toast.makeText(context, it.message, Toast.LENGTH_SHORT)
+                                        .show()
+                                }
+                            })
                     }
                     return
                 }

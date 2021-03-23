@@ -3,6 +3,7 @@ package com.pmprogramms.cloudapp.repository
 import android.net.Uri
 import android.os.Environment
 import android.util.Log
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.ktx.Firebase
@@ -11,6 +12,7 @@ import com.google.firebase.storage.ktx.component2
 import com.google.firebase.storage.ktx.storage
 import com.pmprogramms.cloudapp.R
 import com.pmprogramms.cloudapp.helpers.FileType
+import com.pmprogramms.cloudapp.helpers.UploadState
 import com.pmprogramms.cloudapp.model.User
 import java.io.File
 import com.pmprogramms.cloudapp.model.File as fileModel
@@ -79,8 +81,10 @@ class FirebaseRepository {
         return mutableLiveData
     }
 
-    fun uploadFile(fileType: FileType, filePath: Uri) {
+    fun uploadFile(fileType: FileType, filePath: Uri) : LiveData<UploadState> {
         val file = File(filePath.path)
+        val uploadStateLiveData = MutableLiveData<UploadState>()
+        uploadStateLiveData.value = UploadState.INGOING
 
         val catalog = when (fileType) {
             FileType.IMAGE -> {
@@ -100,10 +104,15 @@ class FirebaseRepository {
 
         uploadTask.addOnSuccessListener { task ->
             run {
-                if (task.task.isComplete)
+                if (task.task.isComplete) {
+                    uploadStateLiveData.value = UploadState.SUCCESS
                     Log.d("uploadFile", "uploadFile: FINISHED UPLOAD")
+                }else
+                    uploadStateLiveData.value = UploadState.FAIL
             }
         }
+
+        return uploadStateLiveData
     }
 
 
@@ -155,7 +164,6 @@ class FirebaseRepository {
 
     fun downloadFile(path: String, fileType: FileType) {
         val storageRef = Firebase.storage.reference.child(path)
-        //todo make with type files
         val localFile = when (fileType) {
             FileType.IMAGE -> {
                 File.createTempFile("image", ".jpg")
